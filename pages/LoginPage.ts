@@ -9,7 +9,7 @@ export class LoginPage{
   constructor(page : Page){
     this.page = page
 
-    //Locators 
+    //Locators for Login Page
         this.userNameInput = page.getByPlaceholder('Username');
         this.passwordInput = page.getByPlaceholder("Password");
         this.loginButton = page.getByRole('button',{name:' Login '});
