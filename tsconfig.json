@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "outDir": "./tests-out",
+    "strict": true,
+    "strictNullChecks": true,
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "baseUrl": "./",
+    "paths": {
+      "@api/*": ["api/*"],
+      "@config/*": ["config/*"],
+      "@data/*": ["test-data/*"],
+      "@db/*": ["dataBase/*"],
+      "@helper/*": ["helper/*"],
+      "@models/*": ["models/*"],
+      "@pages/*": ["pages/*"],
+      "@reporter/*": ["reporter/*"],
+      "@support/*": ["support/*"],
+      "@utils/*": ["utils/*"]
+    },
+    "declaration": false, // No need to generate declaration files (.d.ts) for a test project
+    "downlevelIteration": true, // Enables support for iterating on objects like `Map` and `Set` in older environments
+    "experimentalDecorators": true, // Enables experimental support for ES decorators
+    "noImplicitOverride": true, // Ensures that overriding methods in a subclass are marked with the "override" keyword
+    "noImplicitReturns": true, // Ensures that all code paths in a function explicitly return a value
+    "typeRoots": ["node_modules/@types"] // Specifies the location of type declaration files
+  },
+  "include": [
+    "**/*.ts",
+    "eslint.config.mjs",
+    "helper/customESLintRules/index.mjs",
+    "helper/customESLintRules/noDuplicateTags.mjs",
+    "helper/customESLintRules/preventDuplicateTitles.mjs",
+    "playwright.config.ts",
+    "tests/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}
