@@ -2,6 +2,7 @@ import { LoginPage } from "@pages/LoginPage";
 import { PIMPage } from "@pages/PIMPage";
 import { test } from "@playwright/test";
 import { PIMConstant } from "@support/PIMConstant";
+import * as allure from 'allure-js-commons';
 
 test.describe("PIM User functionality flow", async () => {
   let loginPage: LoginPage;
@@ -15,6 +16,8 @@ test.describe("PIM User functionality flow", async () => {
   });
 
   test("@TC002 Add an PIM employee", async () => {
+    await allure.epic('OrangeHRM');
+    await allure.feature('PMI User feature');
 
     const firstName = `Auto_First_Name_${Math.floor(Math.random() * 100000)}`;
     const middleName = `Auto_Middle_Name_${Math.floor(Math.random() * 100000)}`;
@@ -38,7 +41,12 @@ test.describe("PIM User functionality flow", async () => {
     await pimPage.searchEmployee(empId.toString());
     await pimPage.clickOnButton(" Search ");
     await pimPage.verifyEmployeeDetails(firstName);
+    // Delete PIM Employee
+    await pimPage.deletePIMEmployee();
+    await pimPage.verifyDeleteUserNotification();
+
   });
+
 
   test.afterEach(async () => {
     await loginPage.closeBrowser();

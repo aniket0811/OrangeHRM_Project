@@ -11,6 +11,8 @@ export class PIMPage {
   readonly middleName: Locator;
   readonly lastName: Locator;
   readonly employeeId: Locator;
+  readonly deleteButtonPopup : Locator ;
+  readonly deleteButton : Locator ;
 
   constructor(page: Page) {
     this.page = page;
@@ -24,6 +26,9 @@ export class PIMPage {
     this.middleName = page.getByPlaceholder(PIMConstant.MIDDLE_NAME);
     this.lastName = page.getByPlaceholder(PIMConstant.LAST_NAME);
     this.employeeId = page.getByRole(RolesFactor.TEXT_BOX);
+    this.deleteButtonPopup = page.getByRole(RolesFactor.BUTTON,{name : ' Yes, Delete '});
+    this.deleteButton = page.getByRole(RolesFactor.ROW).getByRole(RolesFactor.CELL).locator(".oxd-icon.bi-trash");
+    
   }
 
   /**
@@ -70,6 +75,14 @@ export class PIMPage {
     await this.page.waitForLoadState("networkidle");
   }
 
+   /**
+   * Delete PIM Employee
+   */
+  async deletePIMEmployee(){
+    await this.deleteButton.click();
+    await this.deleteButtonPopup.click();
+  }
+
   // verifications
   /**
    * Verify success notification
@@ -86,5 +99,10 @@ export class PIMPage {
   async verifyEmployeeDetails(empName : string){
     await this.page.waitForLoadState();
     await expect(this.page.getByRole(RolesFactor.ROW,{name:empName})).toBeVisible();
+  }
+
+   async verifyDeleteUserNotification() {
+    await this.page.getByText("Successfully Deleted").first().waitFor();
+    await expect(this.page.getByText("Successfully Deleted").first()).toBeVisible();
   }
 }
