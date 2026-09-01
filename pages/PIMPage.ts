@@ -5,39 +5,29 @@ import { PIMConstant } from "@support/PIMConstant";
 export class PIMPage {
   private page: Page;
 
-  readonly pimLink: (option: string) => Locator;
+
   readonly addButton: (buttonName: string) => Locator;
-  readonly firstName: Locator;
-  readonly middleName: Locator;
-  readonly lastName: Locator;
+  readonly deleteButton: Locator;
+  readonly deleteButtonPopup: Locator;
   readonly employeeId: Locator;
-  readonly deleteButtonPopup : Locator ;
-  readonly deleteButton : Locator ;
+  readonly firstName: Locator;
+  readonly lastName: Locator;
+  readonly middleName: Locator;
 
   constructor(page: Page) {
     this.page = page;
 
     //Locators
-    this.pimLink = (option: string) =>
-      page.getByRole(RolesFactor.LINK, { name: option });
+
     this.addButton = (buttonName: string) =>
       page.getByRole(RolesFactor.BUTTON, { name: buttonName });
-    this.firstName = page.getByPlaceholder(PIMConstant.FIRST_NAME);
-    this.middleName = page.getByPlaceholder(PIMConstant.MIDDLE_NAME);
-    this.lastName = page.getByPlaceholder(PIMConstant.LAST_NAME);
-    this.employeeId = page.getByRole(RolesFactor.TEXT_BOX);
-    this.deleteButtonPopup = page.getByRole(RolesFactor.BUTTON,{name : ' Yes, Delete '});
     this.deleteButton = page.getByRole(RolesFactor.ROW).getByRole(RolesFactor.CELL).locator(".oxd-icon.bi-trash");
-    
-  }
+    this.deleteButtonPopup = page.getByRole(RolesFactor.BUTTON, { name: ' Yes, Delete ' });
+    this.employeeId = page.getByRole(RolesFactor.TEXT_BOX);
+    this.firstName = page.getByPlaceholder(PIMConstant.FIRST_NAME);
+    this.lastName = page.getByPlaceholder(PIMConstant.LAST_NAME);
+    this.middleName = page.getByPlaceholder(PIMConstant.MIDDLE_NAME);
 
-  /**
-   * This method is use for click an option
-   * @param option - option which need to be click
-   */
-  async clickOnOption(option: string) {
-    await this.pimLink(option).click();
-    await this.page.waitForLoadState();
   }
 
   /**
@@ -50,13 +40,13 @@ export class PIMPage {
   }
 
   /**
-   * Add PIM Employee details
+   * Create PIM Employee details
    * @param firstName 
    * @param middleName 
    * @param lastName 
    * @param empId 
    */
-  async addEmployeeDetails(
+  async createEmployeeDetails(
     firstName: string,
     middleName: string,
     lastName: string,
@@ -75,33 +65,27 @@ export class PIMPage {
     await this.page.waitForLoadState("networkidle");
   }
 
-   /**
-   * Delete PIM Employee
-   */
-  async deletePIMEmployee(){
+  /**
+  * Delete PIM Employee
+  */
+  async deletePIMEmployee() {
     await this.deleteButton.click();
     await this.deleteButtonPopup.click();
   }
 
   // verifications
-  /**
-   * Verify success notification
-   */
-  async verifySuccessNotification() {
-    await this.page.getByText("Success").first().waitFor();
-    await expect(this.page.getByText("Success").first()).toBeVisible();
-  }
+
 
   /**
    * Verify employee details
    * @param empName 
    */
-  async verifyEmployeeDetails(empName : string){
+  async verifyEmployeeDetails(empName: string) {
     await this.page.waitForLoadState();
-    await expect(this.page.getByRole(RolesFactor.ROW,{name:empName})).toBeVisible();
+    await expect(this.page.getByRole(RolesFactor.ROW, { name: empName })).toBeVisible();
   }
 
-   async verifyDeleteUserNotification() {
+  async verifyDeleteUserNotification() {
     await this.page.getByText("Successfully Deleted").first().waitFor();
     await expect(this.page.getByText("Successfully Deleted").first()).toBeVisible();
   }
